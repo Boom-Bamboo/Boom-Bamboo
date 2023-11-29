@@ -180,10 +180,8 @@ class ChatModel(nn.Module, GenerationMixin):
             prompt += "[Round {}]\n问：{}\n答：".format(len(history), query)
         inputs = tokenizer([prompt], return_tensors="pt")
         inputs = inputs.to(self.device)
-        # print(inputs)
         outputs = self.generate(**inputs, **gen_kwargs)
         outputs = outputs.tolist()[0][len(inputs["input_ids"][0]):]
-        # print(outputs)
         response = tokenizer.decode(outputs)
         response = self.process_response(response)
         history = history + [(query, response)]
